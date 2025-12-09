@@ -2,13 +2,12 @@ import { Form } from "./components/groups-overview/Forms";
 import { Button } from "./components/groups-overview/Buttons";
 import { List } from "./components/groups-overview/List"
 import { Plus } from "lucide-react";
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import { CreateNewGroup } from "./pages/createNewGroup";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CreateNewGroup } from "./pages/createNewGroup";
 
-function App() {
+const FirstPage = () => {
   return (
-    
-    <div>
+   <div>
       <Form/>
       <div className="flex justify-center">
         <Button 
@@ -40,12 +39,28 @@ function App() {
           />
         </div>
       </div>
-      {/* <BrowserRouter>
-        <Routes>
-          <Route path = "/create-group" element ={<CreateNewGroup />}/>
-        </Routes>
-    </BrowserRouter> */}
-    </div>
+       </div>
+      )
+}
+
+function App() {
+  return (
+    <div>
+      <Button 
+        className="flex items-center gap-2 bg-[#3A7FE5] text-white px-4 py-2 rounded font-bold"
+          name= "Create New Group" 
+          variant= "ho" 
+          isActive={true}
+          onClick={()=> console.log("Button Click Success!")}
+          plusIcon={<Plus />}
+        />
+      <BrowserRouter>
+          <Routes>
+            <Route path="/create-group" element={<CreateNewGroup />}/>
+            <Route path="/" element={<FirstPage/>}/>
+          </Routes>
+      </BrowserRouter>
+     </div>
   )
 }
 

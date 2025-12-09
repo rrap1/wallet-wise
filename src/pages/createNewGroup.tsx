@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import { Button } from "../components/groups-overview/Buttons";
 import { Form } from "../components/groups-overview/Forms";
-
+import {ChevronLeft, Plus}  from 'lucide-react'
 export const CreateNewGroup = () => {
     return (
         <div>
+            <Link to="/">
+            <ChevronLeft />
+            </Link>
             <h1>Create New Group</h1>
             <h2>Group Name</h2>
             <Form/>

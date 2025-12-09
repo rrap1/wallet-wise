@@ -14,11 +14,11 @@ export const Button = ({ name, isActive, variant, plusIcon, ...props }: ButtonPr
      let activeStyle = "bg-blue-500 text-white hover:bg-blue-600 ";
      let inactiveStyle = "bg-gray-200 text-gray-700 hover:bg-gray-300 ";
     return (
+        <Link to="/create-group">
         <button className={baseStyle + (isActive ? activeStyle : inactiveStyle)} {...props} >
-            {/* <Link to="/create-group"> Create Group  */}
             {plusIcon}
             {name}
-            {/* </Link> */}
         </button>
+        </Link> 
     )
 };
