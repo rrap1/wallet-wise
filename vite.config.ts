@@ -10,4 +10,8 @@ export default defineConfig({
       '@': '/src',
     },
   },
+  server: {
+    port: 5173,          // Force port 5173
+    strictPort: true,    // Don't try other ports
+  },
 });
