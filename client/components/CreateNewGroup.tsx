@@ -26,6 +26,7 @@ export const CreateNewGroup = () => {
       return;
 
     } else {
+     
       try {
         const response = await fetch('http://localhost:3000/create-group', {
           method: 'POST',

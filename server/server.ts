@@ -40,8 +40,6 @@ const mock: any[] = [
   },
 ];
 
-
-
 const users_table = [
   {
     id: 1,
