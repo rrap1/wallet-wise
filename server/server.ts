@@ -1,53 +1,64 @@
+// equivalent file to star wars server.ts
+// import path from 'path'
 import express from 'express';
-import type { Request, Response, NextFunction } from 'express';
+import apiRouter from './routes/api.ts'
+import cors from 'cors'
+import dotenv from 'dotenv'
 
-import 'dotenv/config';
-import pool from './model/database'; // import { Pool, QueryResult } from 'pg';
-import cors from 'cors';
-// import apiRouter from'./routes/api';
 
 const app = express();
-const PORT = 3000; // 5432 this is the port in .env
+const PORT = 3000; 
 
-app.use(cors());
+dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use("/api", apiRouter); //!We don't need it since we are not modularazing routes
+
+
+app.use(cors({
+  origin: 'http//localhost:5173',
+  credentials: true
+}));
+
+app.use('api', apiRouter);
+
+//catch-all route handler for requests to an unknown route
+app.use((req, res) => res.status(404).send('Page not found'));
+
 
 //TODO: Routes
-app.get('/test', async (req: Request, res: Response) => {
-  try {
-    const result = await pool.query('SELECT * FROM "Adventures"');
-    // destructure / stringify / etc BEFORE sending it to the frontend -> data you want is on result.rows[0]
-    res.send(`Yay! Database is connected ${JSON.stringify(result.rows[0])}`);
-    console.log('Result from DB: ', result);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(`Womp, womp! Database is not connected ${err}`);
-  }
-});
+// app.get('/test', async (req: Request, res: Response) => {
+//   try {
+//     const result = await pool.query('SELECT * FROM "Adventures"');
+//     // destructure / stringify / etc BEFORE sending it to the frontend -> data you want is on result.rows[0]
+//     res.send(`Yay! Database is connected ${JSON.stringify(result.rows[0])}`);
+//     console.log('Result from DB: ', result);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send(`Womp, womp! Database is not connected ${err}`);
+//   }
+// });
 
-app.post('/api/adventure', async (req: Request, res: Response) => {
-  try {
-    const { name } = req.body;
-    const result = await pool.query(
-      'INSERT INTO "Adventures" (name) VALUES ($1) RETURNING *',
-      [name]
-    );
-    res.status(201).json(result.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(`Error creating adventure: ${err}`);
-  }
-});
+// app.post('/api/adventure', async (req: Request, res: Response) => {
+//   try {
+//     const { name } = req.body;
+//     const result = await pool.query(
+//       'INSERT INTO "Adventures" (name) VALUES ($1) RETURNING *',
+//       [name]
+//     );
+//     res.status(201).json(result.rows[0]);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send(`Error creating adventure: ${err}`);
+//   }
+// });
 
-//Create gets: for adventure page, adventure detail (expenses and balances sections)
+// //Create gets: for adventure page, adventure detail (expenses and balances sections)
 
-//TODO: 400 error handler
-app.use((req, res) => res.sendStatus(404));
+// //TODO: 400 error handler
+// app.use((req, res) => res.sendStatus(404));
 
 //TODO: Global error handler 500
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
