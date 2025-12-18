@@ -8,6 +8,13 @@ export const CreateNewGroup = () => {
   const [disableSubmit, setDisableSubmit] = useState(false);
 
   // const navigate = useNavigate();//maybe we need this to route to the next page after creating a group - esm
+       const values: {
+        name: string
+        description: string
+        start_date: Date
+        end_date: Date
+        members: string[]
+      };
 
   const handleChange = (e) => {
     setAdventureName(e.target.value); //
@@ -71,24 +78,9 @@ export const CreateNewGroup = () => {
           <input
             type='text'
             className=' w-90 rounded-xl border border-[#DEDEDE] bg-white p-4 mb-60'
-            placeholder=''
+            placeholder='Enter Group Name'
             onInput={handleChange}
             required
-          />
-        </div>
-
-        <div className='flex justify-center'>
-          <Button
-            className='flex items-center gap-2 bg-[#3A7FE5] text-white px-4 py-2 rounded font-bold'
-            name='Create New Group'
-            type='submit'
-            variant='ho'
-            isActive={true}
-            disabled={disableSubmit}
-            // onClick={() => console.log('Button Click Success!')}
-            plusIcon={<Plus />}
-            route='/trip-name'
-            // HERE WE HAVE TO CHANGE THE ROUTE
           />
         </div>
       </form>
@@ -99,24 +91,9 @@ export const CreateNewGroup = () => {
           <input
             type='text'
             className=' w-90 rounded-xl border border-[#DEDEDE] bg-white p-4 mb-60'
-            placeholder=''
+            placeholder='Enter Group Description'
             onInput={handleChange}
             required
-          />
-        </div>
-
-        <div className='flex justify-center'>
-          <Button
-            className='flex items-center gap-2 bg-[#3A7FE5] text-white px-4 py-2 rounded font-bold'
-            name='Enter Adventure Description'
-            type='submit'
-            variant='ho'
-            isActive={true}
-            disabled={disableSubmit}
-            // onClick={() => console.log('Button Click Success!')}
-            plusIcon={<Plus />}
-            route='/trip-name'
-            // HERE WE HAVE TO CHANGE THE ROUTE
           />
         </div>
       </form>
@@ -142,21 +119,6 @@ export const CreateNewGroup = () => {
             required
           />
         </div>
-
-        <div className='flex justify-center'>
-          <Button
-            className='flex items-center gap-2 bg-[#3A7FE5] text-white px-4 py-2 rounded font-bold'
-            name='Enter Adventure Description'
-            type='submit'
-            variant='ho'
-            isActive={true}
-            disabled={disableSubmit}
-            // onClick={() => console.log('Button Click Success!')}
-            plusIcon={<Plus />}
-            route='/trip-name'
-            // HERE WE HAVE TO CHANGE THE ROUTE
-          />
-        </div>
       </form>
 
       {/* Group Member Entry Form */}
@@ -165,7 +127,7 @@ export const CreateNewGroup = () => {
           <input
             type='text'
             className=' w-90 rounded-xl border border-[#DEDEDE] bg-white p-4 mb-60'
-            placeholder='Enter group members'
+            placeholder='Enter group members. Seperate all members with commas'
             onInput={handleChange}
             required
           />
@@ -180,17 +142,18 @@ export const CreateNewGroup = () => {
             variant='ho'
             isActive={true}
             disabled={disableSubmit}
-            // onClick={() => sendArray()}
+            // onClick={() => handleSubmit()}
             plusIcon={<Plus />}
-            route='/trip-name'
             // HERE WE HAVE TO CHANGE THE ROUTE
+            route = ''
           />
         </div>
-{/* //Thank you!
+        {/* //Thank you!
         <script>
           function sendArray() {
             const input = document.getElementById('groupMembersBtn');
-            
+            const member = input.value.split(',');
+            handleSubmit(member);
           } */}
       </form>
     </div>

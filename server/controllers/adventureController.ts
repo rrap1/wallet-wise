@@ -80,10 +80,22 @@ adventureController.getBalances = async (req, res, next) => {
 // createAdventure: adds new adventure (‘/create-adventure’)
 adventureController.createAdventure = async (req, res, next) => {
   try {
-    const createAdventure = `INSERT INTO adventures(id, created_at, name, description, start_date, end_date, created_by, members)
-        VALUES()`;
-    const result = await db.query(createAdventure);
-    res.locals.createNewAdventure = result.rows;
+    const { name, description, start_date, end_date, members } = req.body; // Needed for POST requests!! It's reading from the req.body, so that the SQL query knows that there are values to insert. (Equivalent to const name = req.body.name; .... and so forth)
+     const createAdventure = `INSERT INTO adventures(name, description, start_date, end_date, members)
+     VALUES($1, $2, $3, $4, $5)
+     RETURNING *`; // Postgres does not return inserted data by default; this allows you to get generated id and created_at. Without this, result.rows will be an empty []. (Also, INSERT results always returns an array!) 
+
+     //For adding values to placeholders (e.g. $1, $2, $3 etc)
+     const values = [
+        name,
+        description,
+        start_date,
+        end_date,
+        members,
+      ];
+
+    const result = await db.query(createAdventure, values);
+    res.locals.createNewAdventure = result.rows[0]; // rows[0 and RETURNING * are tightly relevant!! This is for removing brackets outside of obj (Using rows[0] will return one object, not an array of object)
     return next();
   } catch (err) {
     return next(`${err} Error creating new adventure`);
